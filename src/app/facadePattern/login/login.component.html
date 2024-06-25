@@ -1,0 +1,111 @@
+<div class="container">
+  <form [formGroup]="loginForm" (ngSubmit)="loginForm1()">
+    <div class="mb-3 row">
+      <label for="username" class="col-sm-2 col-form-label">Username</label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          formControlName="username"
+          value=""
+        />
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="inputPassword" class="col-sm-2 col-form-label"
+        >Password</label
+      >
+      <div class="col-sm-10">
+        <input
+          type="password"
+          class="form-control"
+          id="inputPassword"
+          formControlName="password"
+        />
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3">Login</button>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="selectAll($event)"
+        />
+        <h6 class="card-title">All</h6>
+      </div>
+      <div class="card mb-2" *ngFor="let job of jobsList; let i = index">
+        <div class="card-body">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [(ngModel)]="job.checked"
+              (change)="onJoblistChange($event)"
+            />
+            <h6 class="card-title">{{ job.job }}</h6>
+          </div>
+          <p class="card-text mb-2 ms-4">{{ job.exp }}</p>
+          <p class="card-text mb-2 ms-4">{{ job.location }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-primary">{{ btnTxt }}</button>
+    </div>
+    <div class="col-md-3">
+      <!-- <button type="button" class="btn btn-primary"> -->
+      <a routerLink="222" [queryParams]="{ query: 'IsCool' }">
+        Go to /search/222?query=IsCool
+      </a>
+      <!-- </button> -->
+      <br />
+      <br />
+      <div class="row">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="selectAll2($event)"
+        />
+        <h6 class="card-title">All</h6>
+      </div>
+      <form [formGroup]="jobsListForm">
+        <div formArrayName="jobs">
+          <div
+            class="card mb-2"
+            *ngFor="let job2 of jobsFormArray.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <div class="card-body">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  formControlName="checked"
+                  (change)="setJoblist($event, job2.get('jobsId')?.value)"
+                />
+                <h6 class="card-title">{{ job2.get("job")?.value }}</h6>
+              </div>
+              <p class="card-text mb-2 ms-4">{{ job2.get("exp")?.value }}</p>
+              <p class="card-text mb-2 ms-4">
+                {{ job2.get("location")?.value }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

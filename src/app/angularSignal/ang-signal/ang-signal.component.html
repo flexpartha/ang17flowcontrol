@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-md-12">
+    <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+      @for(formdata of jsonFormdata; track trackByIndex){
+      <label class="form-label">{{ formdata.label }}</label>
+      <ng-container>
+        @switch (formdata.type) { @case ('text') {
+        <input
+          class="form-control inputTxet"
+          [type]="formdata.inputType"
+          [formControlName]="formdata.name"
+        />
+        } @case ('textarea') {
+        <textarea
+          class="form-control"
+          [formControlName]="formdata.name"
+        ></textarea>
+        } @case ('select') {
+        <select [formControlName]="formdata.name" class="form-select">
+          <option selected disabled value="">{{ formdata.Default }}</option>
+          <option
+            *ngFor="let option of formdata.options"
+            [value]="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+        } @case ('checkbox') {
+        <input
+          class="form-check"
+          type="checkbox"
+          [formControlName]="formdata.name"
+        />
+        } }
+      </ng-container>
+      }
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="card text-center m-3">
+  <h3 class="card-header">
+    Angular 17 Pagination with NEW BUILT IN CONTROL FLOW
+  </h3>
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>UserId</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of loadData; track trackByIndex) {
+        <tr>
+          <!-- <td>{{ data.id }}</td>
+            <td>{{ data.title }}</td>
+            <td>{{ data.userId }}</td> -->
+          <!-- the strictest XSS DOM sanitizer in Angular -->
+          <td [innerHTML]="service.getSafeHtml(data.id.toString())"></td>
+          <td [innerHTML]="service.getSafeHtml(data.title)"></td>
+          <td [innerHTML]="service.getSafeHtml(data.userId.toString())"></td>
+        </tr>
+        }@empty { Empty list of fruits }
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-6">
+        <button
+          class="btn btn-primary"
+          [disabled]="isVisible"
+          (click)="onPreviousResult()"
+        >
+          <<
+        </button>
+      </div>
+      <div class="col-6">
+        <button
+          [disabled]="isVisibleNext"
+          class="btn btn-primary nextBtn"
+          (click)="onNextResult()"
+        >
+          >>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <!-- {{ sum() }} -->
+    </div>
+    <div class="col-md-4">
+      <form>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            name="input1"
+            [ngModel]="number()"
+            id="inputText"
+            placeholder="Text"
+            (change)="getChangedValue($event)"
+          />
+        </div>
+        <button type="button" class="btn btn-primary" (click)="getAllData()">
+          Get Value By
+        </button>
+      </form>
+    </div>
+    <div class="col-md-4">
+      <span>{{ computedValue() }}</span>
+    </div>
+  </div>
+  <br />
+</div>
+<br />
+@if(showCard){
+<div class="row" id="row2">
+  <section>
+    @for (fetchdata of getEachValue(); track trackByIndex) { @defer{
+    <app-descriptionview [datalist]="fetchdata"></app-descriptionview>
+    }
+    <!-- <div class="container">
+        <div class="row">
+          <h5>{{ fetchdata.title }}</h5>
+          <p>{{ fetchdata.body }}</p>
+        </div>
+      </div> -->
+    }
+  </section>
+</div>
+}
+<div class="row">
+  <div class="col-md-4">
+    <form>
+      <div class="form-group mb-2">
+        <input
+          type="text"
+          class="form-control"
+          name="input2"
+          [(ngModel)]="name"
+          id="inputText"
+          placeholder="Text"
+        />
+      </div>
+      <button type="button" class="btn btn-primary" (click)="saveData()">
+        Save Data
+      </button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<div class="container">
+  <div class="row">
+    <!-- the strictest XSS DOM sanitizer in Angular -->
+
+    <h5 [innerHTML]="sanitizeHTML(datalist.title)"></h5>
+    <p [innerHTML]="sanitizeHTML(datalist.body)"></p>
+  </div>
+</div>
