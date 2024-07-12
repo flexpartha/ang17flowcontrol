@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { UserDetail } from './model/response.interface';
@@ -14,11 +14,12 @@ const apiUrl1 = 'https://jsonplaceholder.typicode.com/posts?userId=2';
 export class JSonApiService {
   pageNum: number = 1;
 
+  private cookieService = inject(CookieService);
   constructor(
     private httpSrv: HttpClient,
-    private sanitizer: DomSanitizer,
-    private cookieService: CookieService
-  ) {}
+    private sanitizer: DomSanitizer
+  ) //private cookieService: CookieService
+  {}
 
   getJsonValue(value: number): Observable<UserDetail[]> {
     return this.httpSrv.get<UserDetail[]>(apiUrl + value);

@@ -1,12 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
 import { JSonApiService } from './json-api.service';
 import { UserDetail } from './model/response.interface';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 fdescribe('JSonApiService', () => {
   let service: JSonApiService;
@@ -18,13 +16,15 @@ fdescribe('JSonApiService', () => {
       get: (name: any) => ({}),
     });
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
+    imports: [],
+    providers: [
         JSonApiService,
         { provide: DomSanitizer, useFactory: domSanitizerStub },
         { provide: CookieService, useFactory: cookieServiceStub },
-      ],
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
     service = TestBed.inject(JSonApiService);
   });
 
