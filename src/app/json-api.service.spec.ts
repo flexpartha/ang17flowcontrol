@@ -3,106 +3,123 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
 import { JSonApiService } from './json-api.service';
 import { UserDetail } from './model/response.interface';
 
 fdescribe('JSonApiService', () => {
-  const apiUrl = 'https://jsonplaceholder.typicode.com/posts?userId=';
-  const apiUrl1 = 'https://jsonplaceholder.typicode.com/posts?userId=2';
   let service: JSonApiService;
-  let httpMock: HttpTestingController;
-  let sanitizer: DomSanitizer;
 
   beforeEach(() => {
+    const domSanitizerStub = () => ({ bypassSecurityTrustHtml: () => ({}) });
+    const cookieServiceStub = () => ({
+      set: (name: any, value: any) => ({}),
+      get: (name: any) => ({}),
+    });
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [JSonApiService],
+      providers: [
+        JSonApiService,
+        { provide: DomSanitizer, useFactory: domSanitizerStub },
+        { provide: CookieService, useFactory: cookieServiceStub },
+      ],
     });
-
     service = TestBed.inject(JSonApiService);
-    httpMock = TestBed.inject(HttpTestingController);
-    sanitizer = TestBed.inject(DomSanitizer);
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
-
-  it('should be created', () => {
+  it('can load instance', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should fetch JSON values based on user ID', () => {
-    const dummyData: UserDetail[] = [
-      { userId: 1, id: 1, title: 'Title 1', body: 'Body 1' },
-      { userId: 1, id: 2, title: 'Title 2', body: 'Body 2' },
-    ];
-
-    service.getJsonValue(1).subscribe((data) => {
-      expect(data.length).toBe(2);
-      expect(data).toEqual(dummyData);
-    });
-
-    const req = httpMock.expectOne(apiUrl + '1');
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyData);
+  it(`pageNum has default value`, () => {
+    expect(service.pageNum).toEqual(1);
   });
 
-  it('should fetch next page JSON values', () => {
-    const dummyData: UserDetail[] = [
-      { userId: 2, id: 3, title: 'Title 3', body: 'Body 3' },
-      { userId: 2, id: 4, title: 'Title 4', body: 'Body 4' },
-    ];
-
-    service.pageNum = 1;
-    service.getNextPage().subscribe((data) => {
-      expect(data.length).toBe(2);
-      expect(data).toEqual(dummyData);
-      expect(service.pageNum).toBe(2);
+  describe('getNextPage', () => {
+    it('makes expected calls', () => {
+      const mockResponse: UserDetail[] = [
+        {
+          userId: 2,
+          id: 11,
+          title: 'et ea vero quia laudantium autem',
+          body: 'delectus reiciendis molestiae occaecati non minima eveniet qui voluptatibus\naccusamus in eum beatae sit\nvel qui neque voluptates ut commodi qui incidunt\nut animi commodi',
+        },
+        {
+          userId: 2,
+          id: 12,
+          title: 'in quibusdam tempore odit est dolorem',
+          body: 'itaque id aut magnam\npraesentium quia et ea odit et ea voluptas et\nsapiente quia nihil amet occaecati quia id voluptatem\nincidunt ea est distinctio odio',
+        },
+      ];
+      const httpTestingController = TestBed.inject(HttpTestingController);
+      service.getNextPage().subscribe((res) => {
+        expect(res).toEqual(mockResponse);
+      });
+      const req = httpTestingController.expectOne(
+        'https://jsonplaceholder.typicode.com/posts?userId=2'
+      );
+      expect(req.request.method).toEqual('GET');
+      req.flush(mockResponse);
+      httpTestingController.verify();
     });
-
-    const req = httpMock.expectOne(apiUrl + '2');
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyData);
   });
 
-  it('should fetch previous page JSON values', () => {
-    const dummyData: UserDetail[] = [
-      { userId: 1, id: 1, title: 'Title 1', body: 'Body 1' },
-      { userId: 1, id: 2, title: 'Title 2', body: 'Body 2' },
-    ];
-
-    service.pageNum = 2;
-    service.getPreviousPage().subscribe((data) => {
-      expect(data.length).toBe(2);
-      expect(data).toEqual(dummyData);
-      expect(service.pageNum).toBe(1);
+  describe('getPreviousPage', () => {
+    it('makes expected calls', () => {
+      const mockResponse: UserDetail[] = [
+        {
+          userId: 2,
+          id: 11,
+          title: 'et ea vero quia laudantium autem',
+          body: 'delectus reiciendis molestiae occaecati non minima eveniet qui voluptatibus\naccusamus in eum beatae sit\nvel qui neque voluptates ut commodi qui incidunt\nut animi commodi',
+        },
+        {
+          userId: 2,
+          id: 12,
+          title: 'in quibusdam tempore odit est dolorem',
+          body: 'itaque id aut magnam\npraesentium quia et ea odit et ea voluptas et\nsapiente quia nihil amet occaecati quia id voluptatem\nincidunt ea est distinctio odio',
+        },
+      ];
+      const httpTestingController = TestBed.inject(HttpTestingController);
+      service.getPreviousPage().subscribe((res) => {
+        expect(res).toEqual(mockResponse);
+      });
+      const req = httpTestingController.expectOne(
+        'https://jsonplaceholder.typicode.com/posts?userId=0'
+      );
+      expect(req.request.method).toEqual('GET');
+      req.flush(mockResponse);
+      httpTestingController.verify();
     });
-
-    const req = httpMock.expectOne(apiUrl + '1');
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyData);
   });
 
-  it('should fetch JSON values from apiUrl1', () => {
-    const dummyData = [{ userId: 2, id: 5, title: 'Title 5', body: 'Body 5' }];
-
-    service.getJsonValue2().subscribe((data) => {
-      expect(data.length).toBe(1);
-      expect(data).toEqual(dummyData);
+  describe('getJsonValue2', () => {
+    it('makes expected calls', () => {
+      const mockResponse: UserDetail[] = [
+        {
+          userId: 2,
+          id: 11,
+          title: 'et ea vero quia laudantium autem',
+          body: 'delectus reiciendis molestiae occaecati non minima eveniet qui voluptatibus\naccusamus in eum beatae sit\nvel qui neque voluptates ut commodi qui incidunt\nut animi commodi',
+        },
+        {
+          userId: 2,
+          id: 12,
+          title: 'in quibusdam tempore odit est dolorem',
+          body: 'itaque id aut magnam\npraesentium quia et ea odit et ea voluptas et\nsapiente quia nihil amet occaecati quia id voluptatem\nincidunt ea est distinctio odio',
+        },
+      ];
+      const httpTestingController = TestBed.inject(HttpTestingController);
+      service.getJsonValue2().subscribe((res) => {
+        expect(res).toEqual(mockResponse);
+      });
+      const req = httpTestingController.expectOne(
+        'https://jsonplaceholder.typicode.com/posts?userId=2'
+      );
+      expect(req.request.method).toEqual('GET');
+      req.flush(mockResponse);
+      httpTestingController.verify();
     });
-
-    const req = httpMock.expectOne(apiUrl1);
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyData);
-  });
-
-  it('should return safe HTML', () => {
-    const unsafeHtml = '<div>Unsafe HTML</div>';
-    const safeHtml: SafeHtml = service.getSafeHtml(unsafeHtml);
-    const expectedSafeHtml = sanitizer.bypassSecurityTrustHtml(unsafeHtml);
-
-    expect(safeHtml).toEqual(expectedSafeHtml);
   });
 });

@@ -40,7 +40,7 @@ export class NewflocontrolComponent implements OnInit {
   ngOnInit(): void {
     this.service.getJsonValue(this.number()).subscribe((res: UserDetail[]) => {
       this.loadData = res;
-      if (this.loadData[0].userId === 1) {
+      if (this.loadData[0]?.userId === 1) {
         this.isVisible = true;
       }
     });
@@ -63,7 +63,7 @@ export class NewflocontrolComponent implements OnInit {
     this.service.getPreviousPage().subscribe((res: UserDetail[]) => {
       this.loadData = res;
       this.isVisibleNext = false;
-      if (this.loadData[0].userId == 1) {
+      if (this.loadData[0]?.userId == 1) {
         this.isVisible = true;
       }
     });
@@ -77,6 +77,7 @@ export class NewflocontrolComponent implements OnInit {
     this.service.getJsonValue(this.number()).subscribe((res: UserDetail[]) => {
       this.getEachValue.set(res);
       this.getEachValue.update((v) => v.slice(0, this.number()));
+      console.log(this.getEachValue());
       if (this.getEachValue().length > 0) {
         this.showCard = true;
       } else {
