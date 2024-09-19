@@ -1,0 +1,16 @@
+<div style="display: block; width: 400px">
+  <button type="button" class="getAlrt" (click)="Getalert()">Get Alert</button>
+  <button type="button" class="getApi" (click)="getApicall()">
+    Get Api Call
+  </button>
+  <button type="button" class="increment" (click)="increment()">
+    Increment
+  </button>
+  <button type="button" class="decrement" (click)="decrement()">
+    decrement
+  </button>
+  <input type="text" [(ngModel)]="input1" />
+  <input type="text" [(ngModel)]="input2" />
+  <button type="button" class="add" (click)="add()">Add</button>
+  <span>{{ testResult }}</span>
+</div>

@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { AngSignalComponent } from './ang-signal.component';
 import { CommonModule } from '@angular/common';
 
-fdescribe('AngSignalComponent', () => {
+describe('AngSignalComponent', () => {
   let component: AngSignalComponent;
   let fixture: ComponentFixture<AngSignalComponent>;
 

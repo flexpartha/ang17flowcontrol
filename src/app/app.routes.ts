@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { UnitTestComponent } from './unit-test/unit-test.component';
 
 export const routes: Routes = [
   {
@@ -31,5 +32,9 @@ export const routes: Routes = [
       import('./facadePattern/facadepattern.routes').then(
         (mod) => mod.facadeRoutes
       ),
+  },
+  {
+    path: 'unittesting',
+    component: UnitTestComponent,
   },
 ];

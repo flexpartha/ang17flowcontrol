@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CustomService } from '../api/custom.service';
 import { ProductsPaginator } from '../../model/product.interface';
@@ -11,6 +11,7 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
   imports: [InfiniteScrollModule, NgFor, NgIf, AsyncPipe],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class ProductComponent implements OnInit {
   private api = inject(CustomService);

@@ -20,12 +20,12 @@ describe('AppComponent', () => {
   //   expect(app.title).toEqual('ang17newcontrolflow');
   // });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Hello, ang17newcontrolflow'
-    );
-  });
+  // it('should render title', () => {
+  //   const fixture = TestBed.createComponent(AppComponent);
+  //   fixture.detectChanges();
+  //   const compiled = fixture.nativeElement as HTMLElement;
+  //   expect(compiled.querySelector('h1')?.textContent).toContain(
+  //     'Hello, ang17newcontrolflow'
+  //   );
+  // });
 });

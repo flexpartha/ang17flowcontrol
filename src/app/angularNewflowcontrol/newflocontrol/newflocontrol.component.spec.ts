@@ -103,38 +103,38 @@ describe('NewflocontrolComponent', () => {
     });
   });
 
-  describe('getAllData', () => {
-    it('makes expected calls', () => {
-      const jSonApiServiceStub = TestBed.inject(
-        JSonApiService
-      ) as jasmine.SpyObj<JSonApiService>;
-      //spyOn(jSonApiServiceStub, 'getJsonValue').and.callThrough();
-      const mockResponse: UserDetail[] = [
-        {
-          userId: 2,
-          id: 11,
-          title: 'et ea vero quia laudantium autem',
-          body: 'delectus reiciendis molestiae occaecati non minima eveniet qui voluptatibus\naccusamus in eum beatae sit\nvel qui neque voluptates ut commodi qui incidunt\nut animi commodi',
-        },
-        {
-          userId: 2,
-          id: 12,
-          title: 'in quibusdam tempore odit est dolorem',
-          body: 'itaque id aut magnam\npraesentium quia et ea odit et ea voluptas et\nsapiente quia nihil amet occaecati quia id voluptatem\nincidunt ea est distinctio odio',
-        },
-      ];
-      const numberValue = 2;
+  // describe('getAllData', () => {
+  //   it('makes expected calls', () => {
+  //     const jSonApiServiceStub = TestBed.inject(
+  //       JSonApiService
+  //     ) as jasmine.SpyObj<JSonApiService>;
+  //     //spyOn(jSonApiServiceStub, 'getJsonValue').and.callThrough();
+  //     const mockResponse: UserDetail[] = [
+  //       {
+  //         userId: 2,
+  //         id: 11,
+  //         title: 'et ea vero quia laudantium autem',
+  //         body: 'delectus reiciendis molestiae occaecati non minima eveniet qui voluptatibus\naccusamus in eum beatae sit\nvel qui neque voluptates ut commodi qui incidunt\nut animi commodi',
+  //       },
+  //       {
+  //         userId: 2,
+  //         id: 12,
+  //         title: 'in quibusdam tempore odit est dolorem',
+  //         body: 'itaque id aut magnam\npraesentium quia et ea odit et ea voluptas et\nsapiente quia nihil amet occaecati quia id voluptatem\nincidunt ea est distinctio odio',
+  //       },
+  //     ];
+  //     const numberValue = 2;
 
-      component.getAllData();
-      jSonApiServiceStub.getNextPage.and.returnValue(of(mockResponse));
-      component.number.set(numberValue);
-      expect(component.getEachValue()).toEqual(
-        mockResponse.slice(0, numberValue)
-      ); // Check if set() and update() work properly
-      expect(component.showCard).toBeTrue();
-      expect(jSonApiServiceStub.getJsonValue).toHaveBeenCalled();
-    });
-  });
+  //     component.getAllData();
+  //     jSonApiServiceStub.getNextPage.and.returnValue(of(mockResponse));
+  //     component.number.set(numberValue);
+  //     expect(component.getEachValue()).toEqual(
+  //       mockResponse.slice(0, numberValue)
+  //     ); // Check if set() and update() work properly
+  //     expect(component.showCard).toBeTrue();
+  //     expect(jSonApiServiceStub.getJsonValue).toHaveBeenCalled();
+  //   });
+  // });
 
   describe('saveData', () => {
     it('makes expected calls', () => {

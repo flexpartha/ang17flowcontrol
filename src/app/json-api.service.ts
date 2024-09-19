@@ -17,9 +17,8 @@ export class JSonApiService {
   private cookieService = inject(CookieService);
   constructor(
     private httpSrv: HttpClient,
-    private sanitizer: DomSanitizer
-  ) //private cookieService: CookieService
-  {}
+    private sanitizer: DomSanitizer //private cookieService: CookieService
+  ) {}
 
   getJsonValue(value: number): Observable<UserDetail[]> {
     return this.httpSrv.get<UserDetail[]>(apiUrl + value);
@@ -51,5 +50,8 @@ export class JSonApiService {
 
   getCookie(name: string) {
     return this.cookieService.get(name);
+  }
+  deleteCookie() {
+    this.cookieService.deleteAll();
   }
 }

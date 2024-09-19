@@ -1,4 +1,10 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  computed,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { DescriptionviewComponent } from '../../descriptionview/descriptionview.component';
@@ -13,6 +19,7 @@ import { SafeHtml } from '@angular/platform-browser';
   imports: [RouterOutlet, FormsModule, DescriptionviewComponent],
   templateUrl: './newflocontrol.component.html',
   styleUrl: './newflocontrol.component.scss',
+  //encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class NewflocontrolComponent implements OnInit {
   LoadData$!: Observable<any>;
@@ -99,5 +106,9 @@ export class NewflocontrolComponent implements OnInit {
     const value = this.service.getCookie('key');
     console.log('Load Value:::---', value);
     this.name = value;
+  }
+
+  deleteCookieData() {
+    this.service.deleteCookie();
   }
 }
