@@ -8,8 +8,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { FacadeService } from '../api/facade.service';
-import { NgFor } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Products } from '../../model/products.interface';
+import { User } from '../../model/user.interface';
 
 const diffJobs = [
   {
@@ -65,11 +68,14 @@ const diffJobs = [
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgFor, FormsModule, RouterModule],
+  imports: [ReactiveFormsModule, FormsModule, RouterModule, AsyncPipe],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  product$!: Observable<Products[]>;
+  authUser$!: Observable<User[]>;
+
   loginForm!: FormGroup;
   jobsListForm!: FormGroup;
 
@@ -134,6 +140,9 @@ export class LoginComponent implements OnInit {
       this.loginForm.value.username,
       this.loginForm.value.password
     );
+    this.facadeService.getAuthuserAndProducts();
+    this.authUser$ = this.facadeService.users$;
+    this.product$ = this.facadeService.products$;
   }
 
   onJoblistChange(event: any) {
@@ -232,5 +241,9 @@ export class LoginComponent implements OnInit {
       this.btnTxt = `Apply Job`;
     }
     console.log('jobs 2:', this.jobsId2);
+  }
+
+  getIndex(index: number) {
+    alert(index);
   }
 }

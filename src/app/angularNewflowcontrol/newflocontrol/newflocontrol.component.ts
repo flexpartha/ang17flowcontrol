@@ -19,7 +19,7 @@ import { SafeHtml } from '@angular/platform-browser';
   imports: [RouterOutlet, FormsModule, DescriptionviewComponent],
   templateUrl: './newflocontrol.component.html',
   styleUrl: './newflocontrol.component.scss',
-  //encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
 })
 export class NewflocontrolComponent implements OnInit {
   LoadData$!: Observable<any>;
