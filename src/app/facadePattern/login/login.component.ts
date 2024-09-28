@@ -68,7 +68,14 @@ const diffJobs = [
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, RouterModule, AsyncPipe],
+  imports: [
+    ReactiveFormsModule,
+    NgFor,
+    NgIf,
+    FormsModule,
+    RouterModule,
+    AsyncPipe,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
