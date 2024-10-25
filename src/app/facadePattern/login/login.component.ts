@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Products } from '../../model/products.interface';
 import { User } from '../../model/user.interface';
+import { JobsDetail } from '../model/jobs.interface';
 
 const diffJobs = [
   {
@@ -65,6 +66,51 @@ const diffJobs = [
     checked: false,
   },
 ];
+
+const diffJobsdup: JobsDetail[] = [
+  {
+    jobsId: 'jd1',
+    job: 'Lead .Dot net Developer',
+    exp: '11-16(in years)',
+    location: 'Pune, Mumbai',
+  },
+  {
+    jobsId: 'jd2',
+    job: 'Senior Software Engineer',
+    exp: '7-12(in years)',
+    location: 'Remote',
+  },
+  {
+    jobsId: 'jd3',
+    job: 'Urgently Hiring - Angular Architect - Hybrid',
+    exp: '12-18(in years)',
+    location: 'pan india',
+  },
+  {
+    jobsId: 'jd4',
+    job: 'NCR Voyix - Hiring - UI Architect',
+    exp: '12-22(in years)',
+    location: 'Hyderabad',
+  },
+  {
+    jobsId: 'jd5',
+    job: 'Opportunity For UI Tech Specialist',
+    exp: '8-13(in years)',
+    location: 'Pune, Chennai, Bengaluru',
+  },
+  {
+    jobsId: 'jd6',
+    job: 'UI Lead',
+    exp: '8-13(in years)',
+    location: 'Pune, Chennai, Bengaluru',
+  },
+  {
+    jobsId: 'jd7',
+    job: 'Lead JavaScript Developer - OTT Platform',
+    exp: '10-14(in years)',
+    location: 'Hyderabad',
+  },
+];
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -80,6 +126,7 @@ const diffJobs = [
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  diffJobsdup2: JobsDetail[] = [];
   product$!: Observable<Products[]>;
   authUser$!: Observable<User[]>;
 
@@ -133,6 +180,10 @@ export class LoginComponent implements OnInit {
     // this.jobsListForm = this.fb.group({
     //   checklist: new FormControl(''),
     // });
+    diffJobsdup.forEach((item: any) => {
+      item.checked = false;
+    });
+    this.diffJobsdup2 = diffJobsdup;
   }
 
   createloginForm() {
@@ -175,6 +226,7 @@ export class LoginComponent implements OnInit {
       }
     });
     console.log(this.jobsId);
+    console.log(this.jobsList);
     if (this.jobsId.length === 1) {
       this.btnTxt = `Apply ${1} Job`;
     }
@@ -186,6 +238,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  onJoblistChange2() {
+    let jobsID: string[] = [];
+    this.diffJobsdup2.forEach((value: JobsDetail) => {
+      if (value.checked) {
+        jobsID.push(value.jobsId);
+      }
+    });
+    console.log('jobsID######----', jobsID);
+  }
   selectAll(event: any) {
     if (event.target.checked) {
       this.jobsId = [];
