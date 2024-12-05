@@ -12,7 +12,7 @@
     ],
     "routes": [
       {
-        "src": "/(.*)",
+        "src": "/",
         "dest": "dist/ang17newcontrolflow/server/server.mjs"
       }
     ]
