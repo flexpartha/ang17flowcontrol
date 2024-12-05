@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build:ssr": "ng build && ng run ang17newcontrolflow:server",
+    "build:ssr": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:ang17newcontrolflow": "node dist/ang17newcontrolflow/server/server.mjs"
@@ -24,8 +24,8 @@
     "bootstrap": "^5.3.3",
     "express": "^4.18.2",
     "jquery": "^3.7.1",
-    "ngx-cookie-service": "^18.0.0",
-    "ngx-infinite-scroll": "^18.0.0",
+    "ngx-cookie-service": "^16.0.0",
+    "ngx-infinite-scroll": "^16.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
