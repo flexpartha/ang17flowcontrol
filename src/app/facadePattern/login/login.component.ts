@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 import { Products } from '../../model/products.interface';
 import { User } from '../../model/user.interface';
 import { JobsDetail } from '../model/jobs.interface';
+import { ButtonComponent } from '../../reuseablecomponent/button/button.component';
+import { TextInputComponent } from '../../reuseablecomponent/text-input/text-input.component';
 
 const diffJobs = [
   {
@@ -121,11 +123,20 @@ const diffJobsdup: JobsDetail[] = [
     FormsModule,
     RouterModule,
     AsyncPipe,
+    ButtonComponent,
+    TextInputComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  checkList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  checkListValue: { [key: number]: boolean } = {};
+  selectedValueL: number[] = [];
+
+  username: string = '';
+  password: string = '';
+
   diffJobsdup2: JobsDetail[] = [];
   product$!: Observable<Products[]>;
   authUser$!: Observable<User[]>;
@@ -313,5 +324,24 @@ export class LoginComponent implements OnInit {
 
   getIndex(index: number) {
     alert(index);
+  }
+
+  selectedValue() {
+    this.selectedValueL = this.checkList.filter(
+      (item) => this.checkListValue[item]
+    );
+    console.log(this.selectedValueL);
+  }
+
+  onSave() {
+    alert('click on save button');
+  }
+
+  onDelete() {
+    alert('click on delete button');
+  }
+
+  getUserName(event: string) {
+    console.log(event);
   }
 }

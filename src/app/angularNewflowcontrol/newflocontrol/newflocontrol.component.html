@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (data of loadData; track trackByIndex) {
+        @for (data of LoadData$ | async; track trackByIndex) {
         <tr>
           <!-- <td>{{ data.id }}</td>
             <td>{{ data.title }}</td>

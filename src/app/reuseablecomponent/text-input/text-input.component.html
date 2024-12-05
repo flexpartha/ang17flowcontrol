@@ -1,0 +1,10 @@
+<div class="text-input">
+  <label *ngIf="label">{{ label }}</label>
+  <input
+    [type]="type"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [value]="value"
+    (input)="onValueChange($event)"
+  />
+</div>

@@ -8,21 +8,22 @@ import {
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { DescriptionviewComponent } from '../../descriptionview/descriptionview.component';
-import { Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { UserDetail } from '../../model/response.interface';
 import { JSonApiService } from '../../json-api.service';
 import { SafeHtml } from '@angular/platform-browser';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-newflocontrol',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, DescriptionviewComponent],
+  imports: [RouterOutlet, FormsModule, DescriptionviewComponent, AsyncPipe],
   templateUrl: './newflocontrol.component.html',
   styleUrl: './newflocontrol.component.scss',
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class NewflocontrolComponent implements OnInit {
-  LoadData$!: Observable<any>;
+  LoadData$!: Observable<UserDetail[]>;
   loadData: UserDetail[] = [];
   //getEachValue: UserDetail[] = [];
   getEachValue = signal<UserDetail[]>([]);
@@ -45,35 +46,67 @@ export class NewflocontrolComponent implements OnInit {
     //this.onPreviousResult();
   }
   ngOnInit(): void {
-    this.service.getJsonValue(this.number()).subscribe((res: UserDetail[]) => {
-      this.loadData = res;
-      if (this.loadData[0]?.userId === 1) {
-        this.isVisible = true;
-      }
-    });
-    this.loadCookieData();
+    // it is for asyncpipe observable
+    this.LoadData$ = this.service.getJsonValue(1).pipe(
+      tap((data) => {
+        this.isVisibleNext = false;
+        // Check if the last user ID is 10
+        if (data.some((item) => item.userId === 1)) {
+          this.isVisible = true;
+        }
+      })
+    );
+    // WITHOUT ASYNCPIPE OBSERVBLE
+    // this.service.getJsonValue(this.number()).subscribe((res: UserDetail[]) => {
+    //   this.loadData = res;
+    //   if (this.loadData[0]?.userId === 1) {
+    //     this.isVisible = true;
+    //   }
+    // });
+    //this.loadCookieData();
+    // this.LoadData$ = this.service.getPreviousPage()
   }
 
   onNextResult() {
-    this.service.getNextPage().subscribe((res: UserDetail[]) => {
-      this.loadData = res;
-      this.isVisible = false;
-      this.loadData.filter((item) => {
-        if (item.userId === this.loadData.length) {
+    //with asyncpipe observable
+    this.LoadData$ = this.service.getNextPage().pipe(
+      tap((data) => {
+        this.isVisible = false;
+        // Check if the last user ID is 10
+        if (data.some((item) => item.userId === data.length)) {
           this.isVisibleNext = true;
         }
-      });
-    });
+      })
+    );
+    // without asyncpipe observable
+    // this.service.getNextPage().subscribe((res: UserDetail[]) => {
+    //   this.loadData = res;
+    //   this.isVisible = false;
+    //   this.loadData.filter((item) => {
+    //     if (item.userId === this.loadData.length) {
+    //       this.isVisibleNext = true;
+    //     }
+    //   });
+    // });
   }
 
   onPreviousResult() {
-    this.service.getPreviousPage().subscribe((res: UserDetail[]) => {
-      this.loadData = res;
-      this.isVisibleNext = false;
-      if (this.loadData[0]?.userId == 1) {
-        this.isVisible = true;
-      }
-    });
+    this.LoadData$ = this.service.getPreviousPage().pipe(
+      tap((data) => {
+        this.isVisibleNext = false;
+        // Check if the last user ID is 10
+        if (data.some((item) => item.userId === 1)) {
+          this.isVisible = true;
+        }
+      })
+    );
+    // this.service.getPreviousPage().subscribe((res: UserDetail[]) => {
+    //   this.loadData = res;
+    //   this.isVisibleNext = false;
+    //   if (this.loadData[0]?.userId == 1) {
+    //     this.isVisible = true;
+    //   }
+    // });
   }
 
   getChangedValue(evt: any) {

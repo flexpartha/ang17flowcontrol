@@ -137,6 +137,63 @@
       <div class="row">
         <router-outlet></router-outlet>
       </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div *ngFor="let number of checkList; let i = index">
+            <input
+              type="checkbox"
+              [(ngModel)]="checkListValue[number]"
+              (change)="selectedValue()"
+            />{{ number }}
+          </div>
+        </div>
+        <div class="col-md-4"></div>
+        {{ selectedValueL }}
+      </div>
+      <!-- Implementing Reusable Button component -->
+      <div class="row">
+        <div class="col-md-3">
+          <app-button
+            label="Save"
+            color="primary"
+            size="medium"
+            (click)="onSave()"
+          >
+          </app-button>
+        </div>
+        <div class="col-md-3">
+          <app-button
+            label="Delete"
+            color="danger"
+            size="medium"
+            (click)="onDelete()"
+            [disabled]="true"
+          >
+          </app-button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <app-text-input
+            label="User Name"
+            placeholder="Enter Username"
+            type="text"
+            [value]="username"
+            (valueChange)="getUserName($event)"
+          >
+          </app-text-input>
+        </div>
+        <div class="col-md-4">
+          <app-text-input
+            label="Password"
+            placeholder="Enter Password"
+            type="password"
+            [value]="password"
+            (valueChange)="password = $event"
+          >
+          </app-text-input>
+        </div>
+      </div>
     </div>
     <div class="col-md-3">
       <div class="form-check">

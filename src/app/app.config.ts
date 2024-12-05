@@ -10,7 +10,7 @@ import { APP_BASE_HREF } from '@angular/common';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
-    provideClientHydration(),
+    //provideClientHydration(),
     provideHttpClient(withFetch()),
     {
       provide: APP_BASE_HREF,
