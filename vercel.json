@@ -1,0 +1,25 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "server.ts",
+        "use": "@vercel/node",
+        "config": {
+          "includeFiles": [
+            "dist/ang17newcontrolflow/**/*"
+          ]
+        }
+      },
+      {
+        "src": "dist/ang17newcontrolflow/browser/**",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "server.ts"
+      }
+    ]
+  }
+  
