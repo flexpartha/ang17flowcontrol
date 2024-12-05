@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build:ssr": "ng build && ng run ang17newcontrolflow:server",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:ang17newcontrolflow": "node dist/ang17newcontrolflow/server/server.mjs"
